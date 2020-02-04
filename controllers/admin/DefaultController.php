@@ -1,10 +1,10 @@
-git add README.md<?php
+<?php
 
-namespace panix\mod\pages\controllers\admin;
+namespace panix\mod\news\controllers\admin;
 
 use Yii;
-use panix\mod\pages\models\Pages;
-use panix\mod\pages\models\PagesSearch;
+use panix\mod\news\models\News;
+use panix\mod\news\models\NewsSearch;
 use panix\engine\controllers\AdminController;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -18,26 +18,26 @@ class DefaultController extends AdminController
         return [
             'sortable' => [
                 'class' => 'panix\engine\grid\sortable\Action',
-                'modelClass' => Pages::class,
+                'modelClass' => News::class,
             ],
             'switch' => [
                 'class' => 'panix\engine\actions\SwitchAction',
-                'modelClass' => Pages::class,
+                'modelClass' => News::class,
             ],
             'delete' => [
                 'class' => 'panix\engine\actions\DeleteAction',
-                'modelClass' => Pages::class,
+                'modelClass' => News::class,
             ],
         ];
     }
 
     public function actionIndex()
     {
-        $this->pageName = Yii::t('pages/default', 'MODULE_NAME');
+        $this->pageName = Yii::t('news/default', 'MODULE_NAME');
         $this->buttons = [
             [
                 'icon' => 'add',
-                'label' => Yii::t('pages/default', 'CREATE_BTN'),
+                'label' => Yii::t('news/default', 'CREATE_BTN'),
                 'url' => ['create'],
                 'options' => ['class' => 'btn btn-success']
             ]
@@ -46,7 +46,7 @@ class DefaultController extends AdminController
             $this->pageName
         ];
 
-        $searchModel = new PagesSearch();
+        $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -58,18 +58,18 @@ class DefaultController extends AdminController
     public function actionUpdate($id = false)
     {
 
-        $model = Pages::findModel($id);
-        $this->pageName = Yii::t('pages/default', 'CREATE_BTN');
+        $model = News::findModel($id);
+        $this->pageName = Yii::t('news/default', 'CREATE_BTN');
         $this->buttons = [
             [
                 'icon' => 'add',
-                'label' => Yii::t('pages/default', 'CREATE_BTN'),
+                'label' => Yii::t('news/default', 'CREATE_BTN'),
                 'url' => ['create'],
                 'options' => ['class' => 'btn btn-success']
             ]
         ];
         $this->breadcrumbs[] = [
-            'label' => Yii::t('pages/default', 'MODULE_NAME'),
+            'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['index']
         ];
         $this->breadcrumbs[] = $this->pageName;

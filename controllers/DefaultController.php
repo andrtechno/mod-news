@@ -1,10 +1,10 @@
 <?php
 
-namespace panix\mod\pages\controllers;
+namespace panix\mod\news\controllers;
 
 use Yii;
 use panix\engine\controllers\WebController;
-use panix\mod\pages\models\Pages;
+use panix\mod\news\models\News;
 use yii\helpers\ArrayHelper;
 
 class DefaultController extends WebController
@@ -21,7 +21,7 @@ class DefaultController extends WebController
             ],
             'dependency' => [
                 'class' => 'yii\caching\DbDependency',
-                'sql' => 'SELECT MAX(updated_at) FROM ' . Pages::tableName(),
+                'sql' => 'SELECT MAX(updated_at) FROM ' . News::tableName(),
             ]
         ];
         return ArrayHelper::merge(parent::behaviors(), $behaviors);
@@ -30,8 +30,8 @@ class DefaultController extends WebController
     public function actionView($slug)
     {
         $layouts = [
-            "@theme/modules/pages/views/default/html",
-            "@pages/views/default/html",
+            "@theme/modules/news/views/default/html",
+            "@news/views/default/html",
         ];
 
         foreach ($layouts as $layout) {
@@ -40,7 +40,7 @@ class DefaultController extends WebController
             }
         }
 
-        $model = Pages::find()
+        $model = News::find()
             ->where(['slug' => $slug])
             ->published()
            // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Pages::tableName()]))

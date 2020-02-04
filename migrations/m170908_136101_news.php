@@ -1,17 +1,19 @@
 <?php
-namespace panix\mod\pages\migrations;
+
+namespace panix\mod\news\migrations;
 
 /**
  * Generation migrate by PIXELION CMS
  * @author PIXELION CMS development team <dev@pixelion.com.ua>
  *
- * Class m170908_125100_pages
+ * Class m170908_136101_news
  */
 use Yii;
 use yii\db\Migration;
-use panix\mod\pages\models\Pages;
-use panix\mod\pages\models\PagesTranslate;
-class m170908_125100_pages extends Migration
+use panix\mod\news\models\News;
+use panix\mod\news\models\NewsTranslate;
+
+class m170908_136101_news extends Migration
 {
 
     public function up()
@@ -21,7 +23,7 @@ class m170908_125100_pages extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable(Pages::tableName(), [
+        $this->createTable(News::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned(),
             'slug' => $this->string(255)->notNull(),
@@ -33,7 +35,7 @@ class m170908_125100_pages extends Migration
         ], $tableOptions);
 
 
-        $this->createTable(PagesTranslate::tableName(), [
+        $this->createTable(NewsTranslate::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'object_id' => $this->integer()->unsigned(),
             'language_id' => $this->tinyInteger()->unsigned(),
@@ -42,27 +44,27 @@ class m170908_125100_pages extends Migration
         ], $tableOptions);
 
 
-        $this->createIndex('switch', Pages::tableName(), 'switch');
-        $this->createIndex('ordern', Pages::tableName(), 'ordern');
-        $this->createIndex('user_id', Pages::tableName(), 'user_id');
-        $this->createIndex('slug', Pages::tableName(), 'slug');
+        $this->createIndex('switch', News::tableName(), 'switch');
+        $this->createIndex('ordern', News::tableName(), 'ordern');
+        $this->createIndex('user_id', News::tableName(), 'user_id');
+        $this->createIndex('slug', News::tableName(), 'slug');
 
-        $this->createIndex('object_id', PagesTranslate::tableName(), 'object_id');
-        $this->createIndex('language_id', PagesTranslate::tableName(), 'language_id');
+        $this->createIndex('object_id', NewsTranslate::tableName(), 'object_id');
+        $this->createIndex('language_id', NewsTranslate::tableName(), 'language_id');
 
         if ($this->db->driverName != "sqlite") {
-            $this->addForeignKey('{{%fk_pages_translate}}', PagesTranslate::tableName(), 'object_id', Pages::tableName(), 'id', "CASCADE", "NO ACTION");
+            $this->addForeignKey('{{%fk_news_translate}}', NewsTranslate::tableName(), 'object_id', News::tableName(), 'id', "CASCADE", "NO ACTION");
         }
 
         $columns = ['slug', 'user_id', 'ordern', 'created_at'];
-        $this->batchInsert(Pages::tableName(), $columns, [
+        $this->batchInsert(News::tableName(), $columns, [
             ['about', 1, 1, date('Y-m-d H:i:s')],
             ['mypage', 1, 2, date('Y-m-d H:i:s')],
         ]);
 
 
         $columns = ['object_id', 'language_id', 'name', 'text'];
-        $this->batchInsert(PagesTranslate::tableName(), $columns, [
+        $this->batchInsert(NewsTranslate::tableName(), $columns, [
             [1, Yii::$app->language, 'О компании', ''],
             [2, Yii::$app->language, 'Тест', ''],
         ]);
@@ -71,10 +73,10 @@ class m170908_125100_pages extends Migration
     public function down()
     {
         if ($this->db->driverName != "sqlite") {
-            $this->dropForeignKey('{{%fk_pages_translate}}', PagesTranslate::tableName());
+            $this->dropForeignKey('{{%fk_news_translate}}', NewsTranslate::tableName());
         }
-        $this->dropTable(Pages::tableName());
-        $this->dropTable(PagesTranslate::tableName());
+        $this->dropTable(News::tableName());
+        $this->dropTable(NewsTranslate::tableName());
     }
 
 }

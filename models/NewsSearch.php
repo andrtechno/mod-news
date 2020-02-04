@@ -1,16 +1,16 @@
 <?php
 
-namespace panix\mod\pages\models;
+namespace panix\mod\news\models;
 
 use Yii;
 use yii\base\Model;
 use panix\engine\data\ActiveDataProvider;
-use panix\mod\pages\models\Pages;
-use panix\mod\pages\models\PagesTranslate;
+use panix\mod\news\models\News;
+use panix\mod\news\models\NewsTranslate;
 /**
- * PagesSearch represents the model behind the search form about `app\modules\pages\models\Pages`.
+ * NewsSearch represents the model behind the search form about `panix\mod\news\models\News`.
  */
-class PagesSearch extends Pages {
+class NewsSearch extends News {
 
     /**
      * @inheritdoc
@@ -38,7 +38,7 @@ class PagesSearch extends Pages {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Pages::find();
+        $query = News::find();
         $query->joinWith('translations translations');
 
         $dataProvider = new ActiveDataProvider([

@@ -1,13 +1,13 @@
 <?php
 
-namespace panix\mod\pages\models;
+namespace panix\mod\news\models;
 
 use panix\mod\sitemap\behaviors\SitemapBehavior;
 use Yii;
 use panix\engine\db\ActiveRecord;
 
 /**
- * This is the model class for table "pages".
+ * This is the model class for table "news".
  *
  * @property integer $id
  * @property string $name
@@ -15,17 +15,17 @@ use panix\engine\db\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Pages extends ActiveRecord
+class News extends ActiveRecord
 {
 
-    const route = '/admin/pages/default';
-    const MODULE_ID = 'pages';
-    public $translationClass = PagesTranslate::class;
+    const route = '/admin/news/default';
+    const MODULE_ID = 'news';
+    public $translationClass = NewsTranslate::class;
 
 
     public static function find()
     {
-        return new PagesQuery(get_called_class());
+        return new NewsQuery(get_called_class());
     }
 
     public function getGridColumns()
@@ -51,7 +51,7 @@ class Pages extends ActiveRecord
                 'attribute' => 'created_at',
                 'format' => 'raw',
                 'filter' => \yii\jui\DatePicker::widget([
-                    'model' => new PagesSearch(),
+                    'model' => new NewsSearch(),
                     'attribute' => 'created_at',
                     'dateFormat' => 'yyyy-MM-dd',
                     'options' => ['class' => 'form-control']
@@ -65,7 +65,7 @@ class Pages extends ActiveRecord
                 'attribute' => 'updated_at',
                 'format' => 'raw',
                 'filter' => \yii\jui\DatePicker::widget([
-                    'model' => new PagesSearch(),
+                    'model' => new NewsSearch(),
                     'attribute' => 'updated_at',
                     'dateFormat' => 'yyyy-MM-dd',
                     'options' => ['class' => 'form-control']
@@ -89,7 +89,7 @@ class Pages extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%pages}}';
+        return '{{%news}}';
     }
 
     /**
@@ -115,7 +115,7 @@ class Pages extends ActiveRecord
 
     public function getUrl()
     {
-        return ['/pages/default/view', 'slug' => $this->slug];
+        return ['/news/default/view', 'slug' => $this->slug];
     }
 
     public function renderText()
