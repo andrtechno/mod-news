@@ -5,6 +5,7 @@ namespace panix\mod\news\controllers;
 use Yii;
 use panix\engine\controllers\WebController;
 use panix\mod\news\models\News;
+use panix\mod\news\models\NewsSearch;
 use yii\helpers\ArrayHelper;
 
 class DefaultController extends WebController
@@ -26,7 +27,16 @@ class DefaultController extends WebController
         ];
         return ArrayHelper::merge(parent::behaviors(), $behaviors);
     }
+    public function actionIndex(){
 
+        $searchModel = new NewsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+
+        ]);
+    }
     public function actionView($slug)
     {
         $layouts = [

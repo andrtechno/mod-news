@@ -95,7 +95,8 @@ class News extends ActiveRecord
     {
         return [
             [['name', 'short_description', 'slug'], 'required'],
-            [['name', 'slug', 'full_description'], 'string', 'max' => 255],
+            [['name', 'slug'], 'string', 'max' => 255],
+            [['full_description'], 'string'],
             [['name', 'slug'], 'trim'],
             ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
             ['slug', 'match',
@@ -103,9 +104,6 @@ class News extends ActiveRecord
                 'message' => Yii::t('app/default', 'PATTERN_URL')
             ],
             [['updated_at', 'created_at'], 'safe'],
-            //[['date_update'], 'date', 'format' => 'php:U']
-            /// [['date_update'], 'date','format'=>'php:U', 'timestampAttribute' => 'date_update','skipOnEmpty'=>  true],
-//[['date_update','date_create'], 'filter','filter'=>'strtotime'],
         ];
     }
 
@@ -114,7 +112,7 @@ class News extends ActiveRecord
         return ['/news/default/view', 'slug' => $this->slug];
     }
 
-    public function displayFullDescription()
+    public function displayDescription($attribute='full_description')
     {
         if (Yii::$app->user->can('admin')) {
             \panix\ext\tinymce\TinyMceInline::widget();

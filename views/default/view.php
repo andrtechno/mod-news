@@ -8,7 +8,7 @@ Pjax::begin();
 ?>
     <h1><?= ($this->h1) ? $this->h1 : $model->isString('name'); ?></h1>
     <div class="mce-content-body">
-        <?= $model->displayFullDescription(); ?>
+        <?= $model->isText('full_description'); ?>
     </div>
 <?php Pjax::end(); ?>
 <?= panix\mod\comments\widgets\comment\CommentWidget::widget(['model' => $model]); ?>
