@@ -9,7 +9,7 @@ use yii\base\BootstrapInterface;
 class Module extends WebModule implements BootstrapInterface
 {
 
-    public $icon = 'edit';
+    public $icon = 'newspaper';
 
     public function bootstrap($app)
     {

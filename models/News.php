@@ -44,10 +44,6 @@ class News extends ActiveRecord
                 'contentOptions' => ['class' => 'text-center'],
             ],
             [
-                'attribute' => 'text',
-                'format' => 'html'
-            ],
-            [
                 'attribute' => 'created_at',
                 'format' => 'raw',
                 'filter' => \yii\jui\DatePicker::widget([
@@ -98,8 +94,8 @@ class News extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'text', 'slug'], 'required'],
-            [['name', 'slug'], 'string', 'max' => 255],
+            [['name', 'short_description', 'slug'], 'required'],
+            [['name', 'slug', 'full_description'], 'string', 'max' => 255],
             [['name', 'slug'], 'trim'],
             ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
             ['slug', 'match',
@@ -118,12 +114,12 @@ class News extends ActiveRecord
         return ['/news/default/view', 'slug' => $this->slug];
     }
 
-    public function renderText()
+    public function displayFullDescription()
     {
         if (Yii::$app->user->can('admin')) {
             \panix\ext\tinymce\TinyMceInline::widget();
         }
-        return (Yii::$app->user->can('admin')) ? $this->isText('text') : $this->pageBreak('text');
+        return (Yii::$app->user->can('admin')) ? $this->isText('full_description') : $this->pageBreak('full_description');
     }
 
     public function getUser()
@@ -133,7 +129,7 @@ class News extends ActiveRecord
 
     public function behaviors()
     {
-        $b=[];
+        $b = [];
         if (Yii::$app->getModule('seo'))
             $b['seo'] = [
                 'class' => '\panix\mod\seo\components\SeoBehavior',
