@@ -27,7 +27,9 @@ class DefaultController extends WebController
         ];
         return ArrayHelper::merge(parent::behaviors(), $behaviors);
     }
-    public function actionIndex(){
+
+    public function actionIndex()
+    {
 
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
@@ -37,23 +39,13 @@ class DefaultController extends WebController
 
         ]);
     }
+
     public function actionView($slug)
     {
-        $layouts = [
-            "@theme/modules/news/views/default/html",
-            "@news/views/default/html",
-        ];
-
-        foreach ($layouts as $layout) {
-            if (file_exists(Yii::getAlias($layout) . DIRECTORY_SEPARATOR . $slug . '.' . $this->view->defaultExtension)) {
-                return $this->render($layout . '/' . $slug, []);
-            }
-        }
-
         $model = News::find()
             ->where(['slug' => $slug])
             ->published()
-           // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Pages::tableName()]))
+            // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Pages::tableName()]))
             ->one();
 
 
@@ -61,7 +53,11 @@ class DefaultController extends WebController
             $this->error404();
         }
         $this->pageName = $model->name;
-        $this->breadcrumbs = [$this->pageName];
+        $this->breadcrumbs[] = [
+            'label' => Yii::t('news/default', 'MODULE_NAME'),
+            'url' => ['index']
+        ];
+        $this->breadcrumbs[] = $this->pageName;
         $this->view->title = $this->pageName;
         return $this->render('view', ['model' => $model]);
     }

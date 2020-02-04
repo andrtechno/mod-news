@@ -6,7 +6,7 @@ echo \yii\widgets\ListView::widget([
     //'layout' => '{sorter}{summary}{items}{pager}',
     'layout' => '{items}{pager}',
     'emptyText' => 'Empty',
-    'options' => ['class' => 'row list-view'],
+    'options' => ['class' => 'row list-view blog_wrapper'],
     'itemOptions' => ['class' => 'item'],
     'emptyTextOptions' => ['class' => 'alert alert-info']
 ]);
