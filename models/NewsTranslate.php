@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
 class NewsTranslate extends ActiveRecord
 {
 
-    public static $translationAttributes = ['name', 'text'];
+    public static $translationAttributes = ['name', 'short_description','full_description'];
 
     public static function tableName()
     {

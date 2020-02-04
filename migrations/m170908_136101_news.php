@@ -40,7 +40,8 @@ class m170908_136101_news extends Migration
             'object_id' => $this->integer()->unsigned(),
             'language_id' => $this->tinyInteger()->unsigned(),
             'name' => $this->string(255),
-            'text' => $this->text()
+            'short_description' => $this->text(),
+            'full_description' => $this->text()
         ], $tableOptions);
 
 
@@ -63,10 +64,10 @@ class m170908_136101_news extends Migration
         ]);
 
 
-        $columns = ['object_id', 'language_id', 'name', 'text'];
+        $columns = ['object_id', 'language_id', 'name', 'short_description', 'full_description'];
         $this->batchInsert(NewsTranslate::tableName(), $columns, [
-            [1, Yii::$app->language, 'О компании', ''],
-            [2, Yii::$app->language, 'Тест', ''],
+            [1, 1, 'О компании', '', ''],
+            [2, 1, 'Тест', '', ''],
         ]);
     }
 

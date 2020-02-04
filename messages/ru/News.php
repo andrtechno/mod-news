@@ -1,7 +1,8 @@
 <?php
 return [
     'NAME' => 'Название страницы',
-    'TEXT' => 'Описание',
+    'SHORT_DESCRIPTION' => 'Краткое описание',
+    'FULL_DESCRIPTION' => 'Полное описание',
     'CREATED_AT' => 'Дата создания',
     'UPDATED_AT' => 'Дата обновления',
     'VIEWS' => 'Просмотры',
