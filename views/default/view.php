@@ -2,7 +2,7 @@
 use panix\engine\widgets\Pjax;
 
 /**
- * @var \panix\mod\pages\models\Pages $model
+ * @var \panix\mod\news\models\News $model
  */
 Pjax::begin();
 ?>

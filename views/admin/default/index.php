@@ -7,7 +7,7 @@ use panix\engine\widgets\Pjax;
 Pjax::begin([
     'dataProvider'=>$dataProvider
 ]);
-//echo Html::beginForm(['/admin/pages/default/test'],'post',['id'=>'test','name'=>'test']);
+
 echo GridView::widget([
     'tableOptions' => ['class' => 'table table-striped'],
     'dataProvider' => $dataProvider,
