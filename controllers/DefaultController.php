@@ -36,7 +36,6 @@ class DefaultController extends WebController
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-
         ]);
     }
 
@@ -45,7 +44,7 @@ class DefaultController extends WebController
         $model = News::find()
             ->where(['slug' => $slug])
             ->published()
-            // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Pages::tableName()]))
+            // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . News::tableName()]))
             ->one();
 
 

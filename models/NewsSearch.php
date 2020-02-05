@@ -7,25 +7,29 @@ use yii\base\Model;
 use panix\engine\data\ActiveDataProvider;
 use panix\mod\news\models\News;
 use panix\mod\news\models\NewsTranslate;
+
 /**
  * NewsSearch represents the model behind the search form about `panix\mod\news\models\News`.
  */
-class NewsSearch extends News {
+class NewsSearch extends News
+{
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['id','views'], 'integer'],
-            [['name','slug','created_at'], 'safe'],
+            [['id', 'views'], 'integer'],
+            [['name', 'slug', 'created_at'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,14 +41,15 @@ class NewsSearch extends News {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params)
+    {
         $query = News::find();
-        $query->joinWith('translations translations');
+        //   $query->joinWith('translations translations');
 
         $dataProvider = new ActiveDataProvider([
-                    'query' => $query,
-                    'sort'=> self::getSort(),
-                ]);
+            'query' => $query,
+            'sort' => self::getSort(),
+        ]);
 
         $this->load($params);
 
@@ -58,14 +63,16 @@ class NewsSearch extends News {
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'translations.name', $this->name]);
+        // $query->andFilterWhere(['like', 'translations.name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'views', $this->views]);
 
         return $dataProvider;
     }
-    public static function getSort() {
+
+    public static function getSort()
+    {
         $sort = new \yii\data\Sort([
             'attributes' => [
                 'created_at',

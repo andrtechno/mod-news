@@ -1,13 +1,18 @@
 <?php
+use panix\engine\widgets\ListView;
 
-echo \yii\widgets\ListView::widget([
+echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => '_item',
     //'layout' => '{sorter}{summary}{items}{pager}',
     'layout' => '{items}{pager}',
     'emptyText' => 'Empty',
-    'options' => ['class' => 'row list-view blog_wrapper'],
+    'options' => ['class' => 'list-view'],
     'itemOptions' => ['class' => 'item'],
-    'emptyTextOptions' => ['class' => 'alert alert-info']
+    'emptyTextOptions' => ['class' => 'alert alert-info'],
+    'pager' => [
+        'class' => '\panix\engine\widgets\LinkPager',
+        'options'=>['class'=>'pagination justify-content-center']
+    ]
 ]);
 ?>

@@ -19,3 +19,9 @@ $form->field($model, 'full_description')->widget(TinyMce::class, [
     'options' => ['rows' => 6],
 ]);
 ?>
+<?= $form->field($model, 'image', [
+    'parts' => [
+        '{buttons}' => $model->getFileHtmlButton('image')
+    ],
+    'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{error}{hint}{endWrapper}'
+])->fileInput() ?>

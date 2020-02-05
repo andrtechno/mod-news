@@ -18,6 +18,8 @@ class Module extends WebModule implements BootstrapInterface
                 'news/<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>/per-page/<per-page:\d+>' => 'news/default/view',
                 'news/<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>' => 'news/default/view',
                 'news/<slug:[0-9a-zA-Z_\-]+>' => 'news/default/view',
+                'news/page/<page:\d+>/per-page/<per-page:\d+>' => 'news/default/index',
+                'news/page/<page:\d+>' => 'news/default/index',
                 'news' => 'news/default/index',
             ],
             true

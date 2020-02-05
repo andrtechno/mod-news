@@ -3,11 +3,12 @@
 namespace panix\mod\news\controllers\admin;
 
 use Yii;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use panix\engine\Html;
 use panix\mod\news\models\News;
 use panix\mod\news\models\NewsSearch;
 use panix\engine\controllers\AdminController;
-use yii\web\Response;
-use yii\widgets\ActiveForm;
 
 
 class DefaultController extends AdminController
@@ -26,6 +27,10 @@ class DefaultController extends AdminController
             ],
             'delete' => [
                 'class' => 'panix\engine\actions\DeleteAction',
+                'modelClass' => News::class,
+            ],
+            'delete-file' => [
+                'class' => 'panix\engine\actions\DeleteFileAction',
                 'modelClass' => News::class,
             ],
         ];
@@ -85,7 +90,8 @@ class DefaultController extends AdminController
             //}
 
             if ($model->validate()) {
-                $model->save();
+            $model->save();
+
                 $json['success']=false;
                 if (Yii::$app->request->isAjax && Yii::$app->request->post('ajax')) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
@@ -103,5 +109,17 @@ class DefaultController extends AdminController
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+
+    public function getAddonsMenu()
+    {
+        return [
+            [
+                'label' => Yii::t('app/default', 'SETTINGS'),
+                'url' => ['/admin/news/settings/index'],
+                'icon' => Html::icon('settings'),
+            ],
+        ];
     }
 }

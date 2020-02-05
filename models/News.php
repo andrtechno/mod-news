@@ -104,6 +104,9 @@ class News extends ActiveRecord
                 'message' => Yii::t('app/default', 'PATTERN_URL')
             ],
             [['updated_at', 'created_at'], 'safe'],
+
+
+            [['short_description', 'image'], 'default'],
         ];
     }
 
@@ -161,6 +164,18 @@ class News extends ActiveRecord
 
             ];
         }
+
+
+        $b['uploadFile'] = [
+            'class' => 'panix\engine\behaviors\UploadFileBehavior',
+            'files' => [
+                'image' => '@uploads/news',
+            ],
+            'options' => [
+                'watermark' => false
+            ]
+        ];
+
         return \yii\helpers\ArrayHelper::merge($b, parent::behaviors());
     }
 

@@ -27,6 +27,7 @@ class m170908_136101_news extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned(),
             'slug' => $this->string(255)->notNull(),
+            'image' => $this->string()->null()->defaultValue(null),
             'views' => $this->integer()->defaultValue(0),
             'ordern' => $this->integer()->unsigned(),
             'switch' => $this->boolean()->defaultValue(1),
