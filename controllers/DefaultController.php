@@ -2,6 +2,7 @@
 
 namespace panix\mod\news\controllers;
 
+use panix\engine\data\ActiveDataProvider;
 use Yii;
 use panix\engine\controllers\WebController;
 use panix\mod\news\models\News;
@@ -32,8 +33,16 @@ class DefaultController extends WebController
     {
         $this->pageName = Yii::t('news/default', 'MODULE_NAME');
 
-        $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        //$searchModel = new NewsSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+
+        $query = News::find()->published();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
