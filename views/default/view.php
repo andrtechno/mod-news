@@ -11,4 +11,9 @@ Pjax::begin();
         <?= $model->isText('full_description'); ?>
     </div>
 <?php Pjax::end(); ?>
-<?= panix\mod\comments\widgets\comment\CommentWidget::widget(['model' => $model]); ?>
+
+<?php
+if(Yii::$app->settings->get('news','comments')){
+    echo panix\mod\comments\widgets\comment\CommentWidget::widget(['model' => $model]);
+}
+?>

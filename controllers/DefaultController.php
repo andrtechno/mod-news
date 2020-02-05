@@ -30,6 +30,7 @@ class DefaultController extends WebController
 
     public function actionIndex()
     {
+        $this->pageName = Yii::t('news/default', 'MODULE_NAME');
 
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
