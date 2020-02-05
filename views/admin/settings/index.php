@@ -18,7 +18,8 @@ use yii\helpers\ArrayHelper;
     $form = ActiveForm::begin();
     ?>
     <div class="card-body">
-        <?= $form->field($model, 'pagenum') ?>
+        <?= $form->field($model, 'pagenum'); ?>
+        <?= $form->field($model, 'comments')->checkbox(); ?>
     </div>
     <div class="card-footer text-center">
         <?= $model->submitButton(); ?>

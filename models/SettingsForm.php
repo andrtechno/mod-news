@@ -15,11 +15,13 @@ class SettingsForm extends SettingsModel
     public static $category = 'news';
 
     public $pagenum;
+    public $comments;
 
     public function rules()
     {
         return [
             ['pagenum', 'required'],
+            ['comments', 'boolean'],
         ];
     }
 
@@ -27,6 +29,7 @@ class SettingsForm extends SettingsModel
     {
         return [
             'pagenum' => 10,
+            'comments' => true,
         ];
     }
 }
