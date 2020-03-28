@@ -51,24 +51,25 @@ class DefaultController extends WebController
 
     public function actionView($slug)
     {
-        $model = News::find()
+        $this->dataModel = News::find()
             ->where(['slug' => $slug])
             ->published()
             // ->cache(3200, new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . News::tableName()]))
             ->one();
 
 
-        if (!$model) {
+        if (!$this->dataModel) {
             $this->error404();
         }
-        $this->pageName = $model->name;
+        $this->view->setModel($this->dataModel);
+        $this->pageName = $this->dataModel->name;
         $this->breadcrumbs[] = [
             'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['index']
         ];
         $this->breadcrumbs[] = $this->pageName;
         $this->view->title = $this->pageName;
-        return $this->render('view', ['model' => $model]);
+        return $this->render('view', ['model' => $this->dataModel]);
     }
 
 }
