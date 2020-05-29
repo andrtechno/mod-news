@@ -35,6 +35,7 @@ class Module extends WebModule implements BootstrapInterface
                         'label' => Yii::t('news/default', 'MODULE_NAME'),
                         'url' => ['/admin/news'],
                         'icon' => $this->icon,
+                        'visible' => Yii::$app->user->can('/news/admin/default/index') || Yii::$app->user->can('/news/admin/default/*')
                     ],
                 ],
             ],
