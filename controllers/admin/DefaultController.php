@@ -39,14 +39,16 @@ class DefaultController extends AdminController
     public function actionIndex()
     {
         $this->pageName = Yii::t('news/default', 'MODULE_NAME');
-        $this->buttons = [
-            [
-                'icon' => 'add',
-                'label' => Yii::t('news/default', 'CREATE_BTN'),
-                'url' => ['create'],
-                'options' => ['class' => 'btn btn-success']
-            ]
-        ];
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+            $this->buttons = [
+                [
+                    'icon' => 'add',
+                    'label' => Yii::t('news/default', 'CREATE_BTN'),
+                    'url' => ['create'],
+                    'options' => ['class' => 'btn btn-success']
+                ]
+            ];
+        }
         $this->breadcrumbs = [
             $this->pageName
         ];
@@ -65,14 +67,16 @@ class DefaultController extends AdminController
 
         $model = News::findModel($id);
         $this->pageName = Yii::t('news/default', 'CREATE_BTN');
-        $this->buttons = [
-            [
-                'icon' => 'add',
-                'label' => Yii::t('news/default', 'CREATE_BTN'),
-                'url' => ['create'],
-                'options' => ['class' => 'btn btn-success']
-            ]
-        ];
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+            $this->buttons = [
+                [
+                    'icon' => 'add',
+                    'label' => Yii::t('news/default', 'CREATE_BTN'),
+                    'url' => ['create'],
+                    'options' => ['class' => 'btn btn-success']
+                ]
+            ];
+        }
         $this->breadcrumbs[] = [
             'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['index']
@@ -90,13 +94,13 @@ class DefaultController extends AdminController
             //}
 
             if ($model->validate()) {
-            $model->save();
+                $model->save();
 
-                $json['success']=false;
+                $json['success'] = false;
                 if (Yii::$app->request->isAjax && Yii::$app->request->post('ajax')) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
-                    $json['success']=true;
-                    $json['message']='Saved.';
+                    $json['success'] = true;
+                    $json['message'] = 'Saved.';
                     return $json;
                 }
 
