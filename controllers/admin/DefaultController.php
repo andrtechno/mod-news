@@ -39,7 +39,7 @@ class DefaultController extends AdminController
     public function actionIndex()
     {
         $this->pageName = Yii::t('news/default', 'MODULE_NAME');
-        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
@@ -67,7 +67,7 @@ class DefaultController extends AdminController
 
         $model = News::findModel($id);
         $this->pageName = Yii::t('news/default', 'CREATE_BTN');
-        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/{$this->action->id}") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
