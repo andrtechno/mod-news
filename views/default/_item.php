@@ -3,9 +3,10 @@ use panix\engine\Html;
 use panix\engine\CMS;
 
 /**
- * @var \panix\mod\news\models\News $model
+ * @var \panix\mod\news\models\News|\panix\engine\behaviors\UploadFileBehavior $model
  * @var \yii\web\View $this
  */
+$image = $model->getImageUrl('image', '430x225');
 
 ?>
 
@@ -19,6 +20,9 @@ use panix\engine\CMS;
     </div>
     <div class="card-body">
         <div>
+            <?php if ($image) { ?>
+                <?= Html::img($image); ?>
+            <?php } ?>
             <?= $model->isText('short_description'); ?>
         </div>
     </div>
