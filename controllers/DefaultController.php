@@ -61,13 +61,14 @@ class DefaultController extends WebController
         if (!$this->dataModel) {
             $this->error404();
         }
+		$this->dataModel->updateCounters(['views' => 1]);
         $this->view->setModel($this->dataModel);
         $this->pageName = $this->dataModel->name;
-        $this->breadcrumbs[] = [
+        $this->view->params['breadcrumbs'][] = [
             'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['index']
         ];
-        $this->breadcrumbs[] = $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
         $this->view->title = $this->pageName;
         return $this->render('view', ['model' => $this->dataModel]);
     }
