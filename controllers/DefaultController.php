@@ -36,7 +36,7 @@ class DefaultController extends WebController
         //$searchModel = new NewsSearch();
         //$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-
+        $this->view->params['breadcrumbs'][] = $this->pageName;
         $query = News::find()->published();
 
         $dataProvider = new ActiveDataProvider([
