@@ -100,7 +100,7 @@ class DefaultController extends AdminController
                 if (Yii::$app->request->isAjax && Yii::$app->request->post('ajax')) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
                     $json['success'] = true;
-                    $json['message'] = 'Saved.';
+                    $json['message'] = Yii::t('app/default','SUCCESS_UPDATE');
                     return $json;
                 }
 
