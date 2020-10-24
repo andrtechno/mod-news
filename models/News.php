@@ -12,6 +12,7 @@ use panix\engine\db\ActiveRecord;
  * @property integer $id
  * @property string $name
  * @property string $text
+ * @property string $slug
  * @property integer $created_at
  * @property integer $updated_at
  */

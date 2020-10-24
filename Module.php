@@ -22,7 +22,7 @@ class Module extends WebModule implements BootstrapInterface
                 'news/page/<page:\d+>' => 'news/default/index',
                 'news' => 'news/default/index',
             ],
-            true
+            false
         );
     }
 
