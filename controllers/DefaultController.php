@@ -38,7 +38,9 @@ class DefaultController extends WebController
 
         $this->view->params['breadcrumbs'][] = $this->pageName;
         $query = News::find()->published();
-
+        if(Yii::$app->request->get('tag')){
+            $query->anyTagValues(Yii::$app->request->get('tag'));
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

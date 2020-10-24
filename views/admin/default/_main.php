@@ -19,6 +19,7 @@ $form->field($model, 'full_description')->widget(TinyMce::class, [
     'options' => ['rows' => 6],
 ]);
 ?>
+<?= $form->field($model, 'tagValues')->widget(\panix\ext\taginput\TagInput::class) ?>
 <?= $form->field($model, 'image', [
     'parts' => [
         '{buttons}' => $model->getFileHtmlButton('image')

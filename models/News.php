@@ -2,9 +2,12 @@
 
 namespace panix\mod\news\models;
 
-use panix\mod\sitemap\behaviors\SitemapBehavior;
+
+
 use Yii;
 use panix\engine\db\ActiveRecord;
+use panix\engine\taggable\Tag;
+use panix\engine\taggable\TagAssign;
 
 /**
  * This is the model class for table "news".
@@ -99,6 +102,7 @@ class News extends ActiveRecord
     public function rules()
     {
         return [
+            ['tagValues', 'safe'],
             [['name', 'short_description', 'slug'], 'required'],
             [['name', 'slug'], 'string', 'max' => 255],
             [['full_description'], 'string'],
@@ -127,7 +131,11 @@ class News extends ActiveRecord
         }
         return (Yii::$app->user->can('admin')) ? $this->isText('full_description') : $this->pageBreak('full_description');
     }
-
+    public function getTags()
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable(TagAssign::tableName(), ['post_id' => 'id']);
+    }
     public function getUser()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
@@ -162,6 +170,15 @@ class News extends ActiveRecord
                 }
             ];
         }
+
+        $b['taggable'] = [
+            'class' => '\panix\engine\taggable\TaggableBehavior',
+            // 'tagValuesAsArray' => false,
+            // 'tagRelation' => 'tags',
+            // 'tagValueAttribute' => 'name',
+            // 'tagFrequencyAttribute' => 'frequency',
+        ];
+
         if (Yii::$app->hasModule('comments')) {
             $b['commentBehavior'] = [
                 'class' => 'panix\mod\comments\components\CommentBehavior',
