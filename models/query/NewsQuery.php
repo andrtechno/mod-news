@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\mod\news\models;
+namespace panix\mod\news\models\query;
 
 
 use yii\db\ActiveQuery;

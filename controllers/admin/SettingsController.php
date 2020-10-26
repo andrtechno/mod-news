@@ -15,8 +15,8 @@ class SettingsController extends AdminController
     {
         $this->pageName = Yii::t('app/default', 'SETTINGS');
         $this->view->params['breadcrumbs'][] = [
-            'label' => Yii::t('news/default', 'MODULE_NAME'),
-            'url' => ['/admin/news']
+            'label' => Yii::t($this->module->id.'/default', 'MODULE_NAME'),
+            'url' => ['/admin/'.$this->module->id]
         ];
         $this->view->params['breadcrumbs'][] = $this->pageName;
         $model = new SettingsForm;

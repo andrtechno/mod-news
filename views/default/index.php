@@ -16,3 +16,15 @@ echo ListView::widget([
     ]
 ]);
 ?>
+
+<?php
+$tags = \panix\engine\taggable\Tag::find()->all();
+?>
+<?php
+echo \panix\engine\taggable\TagWidget::widget([
+    'items' => $tags,
+    'url' => ['/news/default/index'],
+    'urlParam' => 'tag',
+    'format' => 'ul'
+]);
+?>

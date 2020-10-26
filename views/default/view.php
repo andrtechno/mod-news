@@ -35,7 +35,25 @@ Pjax::begin();
 
 
 <?php Pjax::end(); ?>
+<?php
+$tags = $model->tags;
+$tagList = [];
+if ($tags) {
+    ?>
+    <span><i class="fa fa-tags" aria-hidden="true"></i></span>
+    <?php foreach ($tags as $tag) {
+        /** @var \panix\engine\taggable\Tag $tag */
+        $tagList[$tag->name] = $tag->frequency;
+    }
 
+    echo \panix\engine\taggable\TagWidget::widget([
+        'items' => $tagList,
+        'url' => ['/news/default/index'],
+        'urlParam' => 'tag',
+        'format' => 'inline'
+    ]);
+}
+?>
 <?php
 if(Yii::$app->settings->get('news','comments')){
     echo panix\mod\comments\widgets\comment\CommentWidget::widget(['model' => $model]);

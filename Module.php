@@ -7,15 +7,23 @@ use panix\engine\WebModule;
 use yii\base\BootstrapInterface;
 use yii\web\GroupUrlRule;
 
+/**
+ * Class Module
+ *
+ * @property boolean $enableCategory
+ *
+ * @package panix\mod\news
+ */
 class Module extends WebModule implements BootstrapInterface
 {
 
     public $icon = 'newspaper';
+    public $enableCategory = true;
 
     public function bootstrap($app)
     {
 
-        $groupUrlRule = new GroupUrlRule([
+        /*$groupUrlRule = new GroupUrlRule([
             'prefix' => $this->id,
             'rules' => [
                 '<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>/per-page/<per-page:\d+>' => 'default/view',
@@ -27,6 +35,28 @@ class Module extends WebModule implements BootstrapInterface
                 '' => 'default/index',
             ],
         ]);
+        $app->getUrlManager()->addRules($groupUrlRule->rules, false);*/
+
+
+        $rules = [];
+        if ($this->enableCategory) {
+            $rules['<category:[0-9a-zA-Z_\-]+>/<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>/per-page/<per-page:\d+>'] = 'default/view';
+            $rules['<category:[0-9a-zA-Z_\-]+>/<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>'] = 'default/view';
+            $rules['<category:[0-9a-zA-Z_\-]+>/<slug:[0-9a-zA-Z_\-]+>'] = 'default/view';
+            $rules['<category:[0-9a-zA-Z_\-]+>/page/<page:\d+>'] = 'default/index';
+            $rules['<category:[0-9a-zA-Z_\-]+>'] = 'default/index';
+
+        } else {
+            $rules['<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>/per-page/<per-page:\d+>'] = 'default/view';
+            $rules['<slug:[0-9a-zA-Z_\-]+>/page/<page:\d+>'] = 'default/view';
+            $rules['<slug:[0-9a-zA-Z_\-]+>'] = 'default/view';
+        }
+        $rules['tag/<tag:[\w\d\s]+>'] = 'default/index';
+        $rules[''] = 'default/index';
+        $groupUrlRule = new GroupUrlRule([
+            'prefix' => $this->id,
+            'rules' => $rules,
+        ]);
         $app->getUrlManager()->addRules($groupUrlRule->rules, false);
     }
 
@@ -36,10 +66,10 @@ class Module extends WebModule implements BootstrapInterface
             'modules' => [
                 'items' => [
                     [
-                        'label' => Yii::t('news/default', 'MODULE_NAME'),
-                        'url' => ['/admin/news'],
+                        'label' => Yii::t($this->id . '/default', 'MODULE_NAME'),
+                        'url' => ['/admin/' . $this->id],
                         'icon' => $this->icon,
-                        'visible' => Yii::$app->user->can('/news/admin/default/index') || Yii::$app->user->can('/news/admin/default/*')
+                        'visible' => Yii::$app->user->can("/{$this->id}/admin/default/index") || Yii::$app->user->can("/{$this->id}/admin/default/*")
                     ],
                 ],
             ],
@@ -50,12 +80,12 @@ class Module extends WebModule implements BootstrapInterface
     public function getInfo()
     {
         return [
-            'label' => Yii::t('news/default', 'MODULE_NAME'),
+            'label' => Yii::t($this->id . '/default', 'MODULE_NAME'),
             'author' => 'dev@pixelion.com.ua',
             'version' => '1.0',
             'icon' => $this->icon,
-            'description' => Yii::t('news/default', 'MODULE_DESC'),
-            'url' => ['/admin/news'],
+            'description' => Yii::t($this->id . '/default', 'MODULE_DESC'),
+            'url' => ['/admin/' . $this->id],
         ];
     }
 

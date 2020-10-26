@@ -3,11 +3,13 @@
 namespace panix\mod\news\models;
 
 
-
 use Yii;
 use panix\engine\db\ActiveRecord;
 use panix\engine\taggable\Tag;
 use panix\engine\taggable\TagAssign;
+use panix\mod\news\models\query\NewsQuery;
+use panix\mod\news\models\search\NewsSearch;
+use panix\mod\user\models\User;
 
 /**
  * This is the model class for table "news".
@@ -16,8 +18,13 @@ use panix\engine\taggable\TagAssign;
  * @property string $name
  * @property string $text
  * @property string $slug
+ * @property integer $views
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $category_id
+ * @property NewsCategory $category
+ * @property User $user
+ * @property Tag $tags
  */
 class News extends ActiveRecord
 {
@@ -25,7 +32,6 @@ class News extends ActiveRecord
     const route = '/admin/news/default';
     const MODULE_ID = 'news';
     public $translationClass = NewsTranslate::class;
-
 
     public static function find()
     {
@@ -101,46 +107,65 @@ class News extends ActiveRecord
      */
     public function rules()
     {
-        return [
-            ['tagValues', 'safe'],
-            [['name', 'short_description', 'slug'], 'required'],
-            [['name', 'slug'], 'string', 'max' => 255],
-            [['full_description'], 'string'],
-            [['name', 'slug'], 'trim'],
-            ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
-            ['slug', 'match',
-                'pattern' => '/^([a-z0-9-])+$/i',
-                'message' => Yii::t('app/default', 'PATTERN_URL')
-            ],
-            [['updated_at', 'created_at'], 'safe'],
 
-
-            [['short_description', 'image'], 'default'],
-        ];
-    }
-
-    public function getUrl()
-    {
-        return ['/news/default/view', 'slug' => $this->slug];
-    }
-
-    public function displayDescription($attribute='full_description')
-    {
-        if (Yii::$app->user->can('admin')) {
-            \panix\ext\tinymce\TinyMceInline::widget();
+        $rules = [];
+        $rules[] = ['tagValues', 'safe'];
+        $rules[] = [['name', 'short_description', 'slug'], 'required'];
+        if(Yii::$app->getModule('news')->enableCategory){
+            $rules[] = [['category_id'], 'required'];
         }
-        return (Yii::$app->user->can('admin')) ? $this->isText('full_description') : $this->pageBreak('full_description');
+        $rules[] = [['name', 'slug'], 'string', 'max' => 255];
+        $rules[] = [['full_description'], 'string'];
+        $rules[] = [['name', 'slug'], 'trim'];
+        $rules[] = ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'];
+        $rules[] = ['slug', 'match',
+            'pattern' => '/^([a-z0-9-])+$/i',
+            'message' => Yii::t('app/default', 'PATTERN_URL')
+        ];
+        $rules[] = [['updated_at', 'created_at'], 'safe'];
+        $rules[] = [['short_description', 'image'], 'default'];
+
+        return $rules;
     }
+
+    public function getUrl($category = null)
+    {
+        if (Yii::$app->getModule('news')->enableCategory && $category) {
+            return ['/news/default/view', 'category' => $category, 'slug' => $this->slug];
+        } else {
+            return ['/news/default/view', 'slug' => $this->slug];
+        }
+
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTags()
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable(TagAssign::tableName(), ['post_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(NewsCategory::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         $b = [];

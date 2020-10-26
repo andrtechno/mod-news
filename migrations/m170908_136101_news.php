@@ -16,6 +16,7 @@ use panix\mod\news\models\NewsTranslate;
 class m170908_136101_news extends Migration
 {
 
+    public $text = 'Lorem ipsum dolor sit amet, consecte dunt ut labore et dot nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor';
     public function up()
     {
         $tableOptions = null;
@@ -26,6 +27,7 @@ class m170908_136101_news extends Migration
         $this->createTable(News::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned(),
+            'category_id' => $this->integer()->unsigned(),
             'slug' => $this->string(255)->notNull(),
             'image' => $this->string()->null()->defaultValue(null),
             'views' => $this->integer()->defaultValue(0),
@@ -50,6 +52,7 @@ class m170908_136101_news extends Migration
         $this->createIndex('ordern', News::tableName(), 'ordern');
         $this->createIndex('user_id', News::tableName(), 'user_id');
         $this->createIndex('slug', News::tableName(), 'slug');
+        $this->createIndex('category_id', News::tableName(), 'category_id');
 
         $this->createIndex('object_id', NewsTranslate::tableName(), 'object_id');
         $this->createIndex('language_id', NewsTranslate::tableName(), 'language_id');
@@ -67,8 +70,8 @@ class m170908_136101_news extends Migration
 
         $columns = ['object_id', 'language_id', 'name', 'short_description', 'full_description'];
         $this->batchInsert(NewsTranslate::tableName(), $columns, [
-            [1, 1, 'О компании', '', ''],
-            [2, 1, 'Тест', '', ''],
+            [1, 1, 'News 1', $this->text, $this->text],
+            [2, 1, 'News 2', $this->text, $this->text],
         ]);
     }
 

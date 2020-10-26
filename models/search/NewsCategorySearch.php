@@ -1,17 +1,17 @@
 <?php
 
-namespace panix\mod\news\models;
+namespace panix\mod\news\models\search;
 
+use panix\mod\news\models\NewsCategory;
 use Yii;
 use yii\base\Model;
 use panix\engine\data\ActiveDataProvider;
-use panix\mod\news\models\News;
-use panix\mod\news\models\NewsTranslate;
+
 
 /**
- * NewsSearch represents the model behind the search form about `panix\mod\news\models\News`.
+ * NewsCategorySearch represents the model behind the search form about `panix\mod\news\models\NewsCategory`.
  */
-class NewsSearch extends News
+class NewsCategorySearch extends NewsCategory
 {
 
     /**
@@ -20,7 +20,7 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'views'], 'integer'],
+            [['id'], 'integer'],
             [['name', 'slug', 'created_at'], 'safe'],
         ];
     }
@@ -43,7 +43,7 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find()->translate();
+        $query = NewsCategory::find()->translate();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,7 +65,6 @@ class NewsSearch extends News
         $query->andFilterWhere(['like', 'translate.name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
-        $query->andFilterWhere(['like', 'views', $this->views]);
 
         return $dataProvider;
     }
@@ -76,7 +75,6 @@ class NewsSearch extends News
             'attributes' => [
                 'created_at',
                 'updated_at',
-                'views',
                 'name' => [
                     'asc' => ['name' => SORT_ASC],
                     'desc' => ['name' => SORT_DESC],

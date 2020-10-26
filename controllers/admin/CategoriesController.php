@@ -6,12 +6,12 @@ use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use panix\engine\Html;
-use panix\mod\news\models\News;
-use panix\mod\news\models\search\NewsSearch;
+use panix\mod\news\models\NewsCategory;
+use panix\mod\news\models\search\NewsCategorySearch;
 use panix\engine\controllers\AdminController;
 
 
-class DefaultController extends AdminController
+class CategoriesController extends AdminController
 {
 
     public function actions()
@@ -19,41 +19,43 @@ class DefaultController extends AdminController
         return [
             'sortable' => [
                 'class' => 'panix\engine\grid\sortable\Action',
-                'modelClass' => News::class,
+                'modelClass' => NewsCategory::class,
             ],
             'switch' => [
                 'class' => 'panix\engine\actions\SwitchAction',
-                'modelClass' => News::class,
+                'modelClass' => NewsCategory::class,
             ],
             'delete' => [
                 'class' => 'panix\engine\actions\DeleteAction',
-                'modelClass' => News::class,
+                'modelClass' => NewsCategory::class,
             ],
             'delete-file' => [
                 'class' => 'panix\engine\actions\DeleteFileAction',
-                'modelClass' => News::class,
+                'modelClass' => NewsCategory::class,
             ],
         ];
     }
 
     public function actionIndex()
     {
-        $this->pageName = Yii::t($this->module->id.'/default', 'MODULE_NAME');
+        $this->pageName = Yii::t('news/default', 'CATEGORIES');
         if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t($this->module->id.'/default', 'CREATE_BTN'),
+                    'label' => Yii::t('news/default', 'CREATE_BTN'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
             ];
         }
-        $this->view->params['breadcrumbs'] = [
-            $this->pageName
+        $this->view->params['breadcrumbs'][] = [
+            'label' => Yii::t('news/default', 'MODULE_NAME'),
+            'url' => ['/news/admin/default/index']
         ];
+        $this->view->params['breadcrumbs'][] = $this->pageName;
 
-        $searchModel = new NewsSearch();
+        $searchModel = new NewsCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -65,20 +67,20 @@ class DefaultController extends AdminController
     public function actionUpdate($id = false)
     {
 
-        $model = News::findModel($id);
-        $this->pageName = Yii::t($this->module->id.'/default', 'CREATE_BTN');
+        $model = NewsCategory::findModel($id);
+        $this->pageName = Yii::t('news/default', 'CREATE_BTN');
         if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t($this->module->id.'/default', 'CREATE_BTN'),
+                    'label' => Yii::t('news/default', 'CREATE_BTN'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
             ];
         }
         $this->view->params['breadcrumbs'][] = [
-            'label' => Yii::t($this->module->id.'/default', 'MODULE_NAME'),
+            'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['index']
         ];
         $this->view->params['breadcrumbs'][] = $this->pageName;
@@ -121,13 +123,8 @@ class DefaultController extends AdminController
         return [
             [
                 'label' => Yii::t('app/default', 'SETTINGS'),
-                'url' => ["/admin/{$this->module->id}/settings/index"],
+                'url' => ['/admin/news/settings/index'],
                 'icon' => Html::icon('settings'),
-            ],
-            [
-                'label' => Yii::t('news/default', 'CATEGORIES'),
-                'url' => ["/admin/{$this->module->id}/categories/index"],
-                'icon' => Html::icon('folder'),
             ],
         ];
     }
