@@ -111,7 +111,7 @@ class News extends ActiveRecord
         $rules = [];
         $rules[] = ['tagValues', 'safe'];
         $rules[] = [['name', 'short_description', 'slug'], 'required'];
-        if(Yii::$app->getModule('news')->enableCategory){
+        if (Yii::$app->getModule('news')->enableCategory) {
             $rules[] = [['category_id'], 'required'];
         }
         $rules[] = [['name', 'slug'], 'string', 'max' => 255];
@@ -177,7 +177,7 @@ class News extends ActiveRecord
 
         if (Yii::$app->getModule('sitemap')) {
             $b['sitemap'] = [
-                'class' => SitemapBehavior::class,
+                'class' => '\panix\mod\sitemap\behaviors\SitemapBehavior',
                 //'batchSize' => 100,
                 'scope' => function ($model) {
                     /** @var \yii\db\ActiveQuery $model */
@@ -189,7 +189,7 @@ class News extends ActiveRecord
                     return [
                         'loc' => $model->getUrl(),
                         'lastmod' => $model->updated_at,
-                        'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
+                        'changefreq' => \panix\mod\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
                         'priority' => 0.1
                     ];
                 }
