@@ -9,8 +9,9 @@ use panix\ext\tinymce\TinyMce;
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'slug')->textInput(['maxlength' => 255]) ?>
-<?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(\panix\mod\news\models\NewsCategory::find()->all(),'id','name')) ?>
-
+<?php if (Yii::$app->getModule('news')->enableCategory) { ?>
+    <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(\panix\mod\news\models\NewsCategory::find()->all(), 'id', 'name')) ?>
+<?php } ?>
 <?=
 $form->field($model, 'short_description')->widget(TinyMce::class, [
     'options' => ['rows' => 6],
