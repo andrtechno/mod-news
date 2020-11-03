@@ -43,7 +43,7 @@ class CategoriesController extends AdminController
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t('news/default', 'CREATE_BTN'),
+                    'label' => Yii::t('news/default', 'BTN_CREATE_CATEGORY'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
@@ -53,6 +53,7 @@ class CategoriesController extends AdminController
             'label' => Yii::t('news/default', 'MODULE_NAME'),
             'url' => ['/news/admin/default/index']
         ];
+
         $this->view->params['breadcrumbs'][] = $this->pageName;
 
         $searchModel = new NewsCategorySearch();
@@ -68,12 +69,12 @@ class CategoriesController extends AdminController
     {
 
         $model = NewsCategory::findModel($id);
-        $this->pageName = Yii::t('news/default', 'CREATE_BTN');
+        $this->pageName = Yii::t('news/default', 'BTN_CREATE_CATEGORY');
         if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t('news/default', 'CREATE_BTN'),
+                    'label' => Yii::t('news/default', 'BTN_CREATE_CATEGORY'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
@@ -81,6 +82,10 @@ class CategoriesController extends AdminController
         }
         $this->view->params['breadcrumbs'][] = [
             'label' => Yii::t('news/default', 'MODULE_NAME'),
+            'url' => ['/news/admin/default/index']
+        ];
+        $this->view->params['breadcrumbs'][] = [
+            'label' => Yii::t('news/default', 'CATEGORIES'),
             'url' => ['index']
         ];
         $this->view->params['breadcrumbs'][] = $this->pageName;
