@@ -76,7 +76,7 @@ class NewsCategory extends ActiveRecord
                 ['class' => 'panix\engine\grid\columns\CheckboxColumn'],
                 [
                     'class' => \panix\engine\grid\sortable\Column::class,
-                    'url' => ['/admin/news/category/sortable']
+                   // 'url' => ['/admin/news/categories/sortable']
                 ],
             ],
         ];
