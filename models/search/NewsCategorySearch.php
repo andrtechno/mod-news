@@ -43,7 +43,7 @@ class NewsCategorySearch extends NewsCategory
      */
     public function search($params)
     {
-        $query = NewsCategory::find()->translate();
+        $query = NewsCategory::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
