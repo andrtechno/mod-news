@@ -5,7 +5,7 @@ namespace panix\mod\news;
 use Yii;
 use panix\engine\WebModule;
 use yii\base\BootstrapInterface;
-use yii\web\GroupUrlRule;
+use panix\engine\web\GroupUrlRule;
 
 /**
  * Class Module
