@@ -179,9 +179,10 @@ class News extends ActiveRecord
             $b['sitemap'] = [
                 'class' => '\panix\mod\sitemap\behaviors\SitemapBehavior',
                 //'batchSize' => 100,
+                'groupName' => 'Новости',
                 'scope' => function ($model) {
                     /** @var \yii\db\ActiveQuery $model */
-                    $model->select(['slug', 'updated_at']);
+                    //$model->select(['slug', 'updated_at','name']);
                     $model->where(['switch' => 1]);
                 },
                 'dataClosure' => function ($model) {
@@ -189,6 +190,7 @@ class News extends ActiveRecord
                     return [
                         'loc' => $model->getUrl(),
                         'lastmod' => $model->updated_at,
+                        'name' => $model->name,
                         'changefreq' => \panix\mod\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
                         'priority' => 0.1
                     ];
