@@ -3,7 +3,7 @@
     "description": "Module news",
     "keywords": ["pixelion-cms", "module", "news"],
     "homepage": "https://github.com/andrtechno/mod-news",
-    "type": "yii2-extension",
+    "type": "pixelion-module",
     "license": "MIT",
     "authors": [
         {
