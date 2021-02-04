@@ -1,14 +1,12 @@
 <?php
 
-namespace panix\mod\news\migrations;
-
 /**
  * Generation migrate by PIXELION CMS
  * @author PIXELION CMS development team <dev@pixelion.com.ua>
  *
  * Class m170908_136101_news
  */
-use Yii;
+
 use yii\db\Migration;
 use panix\mod\news\models\News;
 use panix\mod\news\models\NewsTranslate;

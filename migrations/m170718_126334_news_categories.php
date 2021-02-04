@@ -1,7 +1,5 @@
 <?php
 
-namespace panix\mod\news\migrations;
-
 /**
  * Generation migrate by PIXELION CMS
  * @author PIXELION CMS development team <dev@pixelion.com.ua>
@@ -9,7 +7,6 @@ namespace panix\mod\news\migrations;
  * Class m170718_126334_news_categories
  */
 
-use Yii;
 use yii\db\Migration;
 use panix\mod\news\models\NewsCategory;
 use panix\mod\news\models\NewsCategoryTranslate;
