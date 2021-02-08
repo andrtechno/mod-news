@@ -64,7 +64,6 @@ class NewsSearch extends News
 
         $query->andFilterWhere(['like', 'translate.name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
-        $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'views', $this->views]);
 
         return $dataProvider;
