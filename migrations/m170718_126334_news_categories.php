@@ -7,7 +7,7 @@
  * Class m170718_126334_news_categories
  */
 
-use yii\db\Migration;
+use panix\engine\db\Migration;
 use panix\mod\news\models\NewsCategory;
 use panix\mod\news\models\NewsCategoryTranslate;
 
@@ -27,7 +27,7 @@ class m170718_126334_news_categories extends Migration
             'slug' => $this->string(255)->notNull(),
             'image' => $this->string()->null()->defaultValue(null),
             'ordern' => $this->integer()->unsigned(),
-            'switch' => $this->boolean()->defaultValue(1),
+            'switch' => $this->boolean()->defaultValue(true),
             'created_at' => $this->integer(11)->null(),
             'updated_at' => $this->integer(11)->null()
         ], $tableOptions);

@@ -7,7 +7,7 @@
  * Class m170908_136101_news
  */
 
-use yii\db\Migration;
+use panix\engine\db\Migration;
 use panix\mod\news\models\News;
 use panix\mod\news\models\NewsTranslate;
 
@@ -30,7 +30,7 @@ class m170908_136101_news extends Migration
             'image' => $this->string()->null()->defaultValue(null),
             'views' => $this->integer()->defaultValue(0),
             'ordern' => $this->integer()->unsigned(),
-            'switch' => $this->boolean()->defaultValue(1),
+            'switch' => $this->boolean()->defaultValue(true),
             'created_at' => $this->integer(11)->null(),
             'updated_at' => $this->integer(11)->null()
         ], $tableOptions);
@@ -55,7 +55,7 @@ class m170908_136101_news extends Migration
         $this->createIndex('object_id', NewsTranslate::tableName(), 'object_id');
         $this->createIndex('language_id', NewsTranslate::tableName(), 'language_id');
 
-        if ($this->db->driverName != "sqlite") {
+        if ($this->db->driverName != "sqlite" || $this->db->driverName != 'pgsql') {
             $this->addForeignKey('{{%fk_news_translate}}', NewsTranslate::tableName(), 'object_id', News::tableName(), 'id', "CASCADE", "NO ACTION");
         }
 
@@ -75,7 +75,7 @@ class m170908_136101_news extends Migration
 
     public function down()
     {
-        if ($this->db->driverName != "sqlite") {
+        if ($this->db->driverName != "sqlite" || $this->db->driverName != 'pgsql') {
             $this->dropForeignKey('{{%fk_news_translate}}', NewsTranslate::tableName());
         }
         $this->dropTable(News::tableName());
