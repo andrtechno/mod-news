@@ -17,11 +17,9 @@ use yii\web\JsExpression;
     <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(\panix\mod\news\models\NewsCategory::find()->published()->all(), 'id', 'name')) ?>
 <?php } ?>
 <?=
-$form->field($model, 'short_description')->widget(TinyMce::class, [
-    'options' => [
-        'rows' => 6,
-        'maxlength' => $this->context->module->shortMaxLength
-    ],
+$form->field($model, 'short_description')->tinyMce([
+    'rows' => 6,
+    'maxlength' => $this->context->module->shortMaxLength
 ]);
 ?>
 
