@@ -1,22 +1,30 @@
 <?php
+
 use panix\ext\tinymce\TinyMce;
+use yii\web\JsExpression;
 
 /**
  * @var \panix\engine\bootstrap\ActiveForm $form
  * @var \panix\mod\news\models\News $model
+ * @var \yii\web\View $this
  */
+
 ?>
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'slug')->textInput(['maxlength' => 255]) ?>
 <?php if (Yii::$app->getModule('news')->enableCategory) { ?>
-    <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(\panix\mod\news\models\NewsCategory::find()->all(), 'id', 'name')) ?>
+    <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(\panix\mod\news\models\NewsCategory::find()->published()->all(), 'id', 'name')) ?>
 <?php } ?>
 <?=
 $form->field($model, 'short_description')->widget(TinyMce::class, [
-    'options' => ['rows' => 6],
+    'options' => [
+        'rows' => 6,
+        'maxlength' => $this->context->module->shortMaxLength
+    ],
 ]);
 ?>
+
 <?=
 $form->field($model, 'full_description')->widget(TinyMce::class, [
     'options' => ['rows' => 6],

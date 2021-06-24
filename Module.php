@@ -11,6 +11,7 @@ use yii\web\GroupUrlRule;
  * Class Module
  *
  * @property boolean $enableCategory
+ * @property integer $shortMaxLength
  *
  * @package panix\mod\news
  */
@@ -19,6 +20,7 @@ class Module extends WebModule implements BootstrapInterface
 
     public $icon = 'newspaper';
     public $enableCategory = true;
+    public $shortMaxLength = 500;
 
     public function bootstrap($app)
     {

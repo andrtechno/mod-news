@@ -10,6 +10,7 @@ use panix\engine\taggable\TagAssign;
 use panix\mod\news\models\query\NewsQuery;
 use panix\mod\news\models\search\NewsSearch;
 use panix\mod\user\models\User;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "news".
@@ -161,6 +162,16 @@ class News extends ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(NewsCategory::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge([
+            'tagValues' => self::t('TAGVALUES'),
+        ], parent::attributeLabels());
     }
 
     /**

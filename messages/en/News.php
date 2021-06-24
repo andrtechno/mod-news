@@ -8,5 +8,6 @@ return [
     'VIEWS' => 'Views',
     'SLUG' => 'URL',
     'IMAGE' => 'Image',
-    'TAB_MAIN' => 'Main'
+    'TAB_MAIN' => 'Main',
+    'TAGVALUES' => 'Tags'
 ];

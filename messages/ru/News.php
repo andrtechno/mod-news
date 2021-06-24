@@ -8,5 +8,6 @@ return [
     'VIEWS' => 'Просмотры',
     'SLUG' => 'URL-адрес',
     'IMAGE' => 'Изображение',
-    'TAB_MAIN' => 'Основной'
+    'TAB_MAIN' => 'Основной',
+    'TAGVALUES' => 'Теги'
 ];
