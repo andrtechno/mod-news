@@ -3,7 +3,7 @@ return [
     'NAME' => 'Titel',
     'SHORT_DESCRIPTION' => 'Kurze Beschreibung',
     'FULL_DESCRIPTION' => 'Vollständige Beschreibung',
-    'CREATED_AT' => 'Erstellungsdatum',
+    'CREATED_AT' => 'Veröffentlichungsdatum',
     'UPDATED_AT' => 'Aktualisierungsdatum',
     'ANSICHTEN' => 'Ansichten',
     'SLUG' => 'URL',

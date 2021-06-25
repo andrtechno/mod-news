@@ -3,6 +3,7 @@
 namespace panix\mod\news\models;
 
 
+use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
 use panix\engine\taggable\Tag;
@@ -239,4 +240,9 @@ class News extends ActiveRecord
         return \yii\helpers\ArrayHelper::merge($b, parent::behaviors());
     }
 
+    public function beforeSave($insert)
+    {
+        $this->created_at = strtotime($this->created_at);
+        return parent::beforeSave($insert);
+    }
 }

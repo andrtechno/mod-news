@@ -43,7 +43,7 @@ class DefaultController extends AdminController
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t($this->module->id.'/default', 'CREATE_BTN'),
+                    'label' => Yii::t($this->module->id.'/default', 'BTN_CREATE'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
@@ -66,12 +66,12 @@ class DefaultController extends AdminController
     {
 
         $model = News::findModel($id);
-        $this->pageName = Yii::t($this->module->id.'/default', 'CREATE_BTN');
+        $this->pageName = Yii::t($this->module->id.'/default', 'BTN_CREATE');
         if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'add',
-                    'label' => Yii::t($this->module->id.'/default', 'CREATE_BTN'),
+                    'label' => Yii::t($this->module->id.'/default', 'BTN_CREATE'),
                     'url' => ['create'],
                     'options' => ['class' => 'btn btn-success']
                 ]
