@@ -1,6 +1,7 @@
 <?php
 return [
     'NAME' => 'Titel',
+    'CATEGORY_ID' => 'Kategorie',
     'SHORT_DESCRIPTION' => 'Kurze Beschreibung',
     'FULL_DESCRIPTION' => 'Vollständige Beschreibung',
     'CREATED_AT' => 'Veröffentlichungsdatum',
