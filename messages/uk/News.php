@@ -1,6 +1,7 @@
 <?php
 return [
     'NAME' => 'Заголовок',
+    'CATEGORY_ID' => 'Категорія',
     'SHORT_DESCRIPTION' => 'Короткий опис',
     'FULL_DESCRIPTION' => 'Повний опис',
     'CREATED_AT' => 'Дата публікації',
