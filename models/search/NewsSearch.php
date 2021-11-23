@@ -80,6 +80,7 @@ class NewsSearch extends News
         $sort = new \yii\data\Sort([
             'defaultOrder' => ['ordern' => SORT_DESC],
             'attributes' => [
+                'ordern',
                 'created_at',
                 'updated_at',
                 'views',
