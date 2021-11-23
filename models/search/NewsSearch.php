@@ -7,6 +7,7 @@ use yii\base\Model;
 use panix\engine\data\ActiveDataProvider;
 use panix\mod\news\models\News;
 use panix\mod\news\models\NewsTranslate;
+use yii\helpers\ArrayHelper;
 
 /**
  * NewsSearch represents the model behind the search form about `panix\mod\news\models\News`.
@@ -19,10 +20,13 @@ class NewsSearch extends News
      */
     public function rules()
     {
-        return [
-            [['id', 'views'], 'integer'],
-            [['name', 'slug', 'created_at'], 'safe'],
-        ];
+
+        if (Yii::$app->getModule(static::MODULE_ID)->enableCategory) {
+            $rules[] = [['category_id'], 'integer'];
+        }
+        $rules[] = [['id', 'views'], 'integer'];
+        $rules[] = [['name', 'slug', 'created_at'], 'safe'];
+        return $rules;
     }
 
     /**
@@ -61,7 +65,9 @@ class NewsSearch extends News
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
-
+        if (Yii::$app->getModule(static::MODULE_ID)->enableCategory) {
+            $query->andFilterWhere(['category_id' => $this->category_id]);
+        }
         $query->andFilterWhere(['like', 'translate.name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'views', $this->views]);
@@ -72,10 +78,12 @@ class NewsSearch extends News
     public static function getSort()
     {
         $sort = new \yii\data\Sort([
+            'defaultOrder' => ['ordern' => SORT_DESC],
             'attributes' => [
                 'created_at',
                 'updated_at',
                 'views',
+                'category_id',
                 'name' => [
                     'asc' => ['name' => SORT_ASC],
                     'desc' => ['name' => SORT_DESC],
