@@ -11,6 +11,7 @@ use panix\engine\taggable\TagAssign;
 use panix\mod\news\models\query\NewsQuery;
 use panix\mod\news\models\search\NewsSearch;
 use panix\mod\user\models\User;
+use yii\caching\DbDependency;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -21,6 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property string $text
  * @property string $slug
  * @property integer $views
+ * @property string $image
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $category_id
@@ -42,58 +44,75 @@ class News extends ActiveRecord
 
     public function getGridColumns()
     {
-        return [
-            'id' => [
-                'attribute' => 'id',
-                'contentOptions' => ['class' => 'text-center'],
-            ],
-            [
-                'attribute' => 'name',
-                'contentOptions' => ['class' => 'text-left'],
-            ],
-            [
-                'attribute' => 'views',
-                'contentOptions' => ['class' => 'text-center'],
-            ],
-            [
+
+        $columns = [];
+        $columns['id'] = [
+            'attribute' => 'id',
+            'contentOptions' => ['class' => 'text-center'],
+        ];
+
+        $columns['name'] = [
+            'attribute' => 'name',
+            'contentOptions' => ['class' => 'text-left'],
+        ];
+        if (Yii::$app->getModule(self::MODULE_ID)->enableCategory) {
+            $columns['category_id'] = [
+                'attribute' => 'category_id',
+                'filter' => ArrayHelper::map(NewsCategory::find()->joinWith('translations')
+                    //  ->cache(3200, new DbDependency(['sql' => 'SELECT MAX(`updated_at`) FROM ' . NewsCategory::tableName()]))
+                    ->addOrderBy(['name' => SORT_ASC])
+                    ->all(), 'id', 'name'),
+                'filterInputOptions' => ['class' => 'form-control', 'prompt' => html_entity_decode('&mdash; категория &mdash;')],
+                'value' => function ($model) {
+                    return ($model->category_id) ? $model->category->name : NULL;
+                }
+            ];
+
+        }
+        $columns['views'] = [
+            'attribute' => 'views',
+            'contentOptions' => ['class' => 'text-center'],
+        ];
+
+        $columns['created_at'] = [
+            'attribute' => 'created_at',
+            'format' => 'raw',
+            'filter' => \yii\jui\DatePicker::widget([
+                'model' => new NewsSearch(),
                 'attribute' => 'created_at',
-                'format' => 'raw',
-                'filter' => \yii\jui\DatePicker::widget([
-                    'model' => new NewsSearch(),
-                    'attribute' => 'created_at',
-                    'dateFormat' => 'yyyy-MM-dd',
-                    'options' => ['class' => 'form-control']
-                ]),
-                'contentOptions' => ['class' => 'text-center'],
-                'value' => function ($model) {
-                    return Yii::$app->formatter->asDatetime($model->created_at, 'php:d D Y H:i:s');
-                }
-            ],
-            [
+                'dateFormat' => 'yyyy-MM-dd',
+                'options' => ['class' => 'form-control']
+            ]),
+            'contentOptions' => ['class' => 'text-center'],
+            'value' => function ($model) {
+                return Yii::$app->formatter->asDatetime($model->created_at, 'php:d D Y H:i:s');
+            }
+        ];
+        $columns['updated_at'] = [
+            'attribute' => 'updated_at',
+            'format' => 'raw',
+            'filter' => \yii\jui\DatePicker::widget([
+                'model' => new NewsSearch(),
                 'attribute' => 'updated_at',
-                'format' => 'raw',
-                'filter' => \yii\jui\DatePicker::widget([
-                    'model' => new NewsSearch(),
-                    'attribute' => 'updated_at',
-                    'dateFormat' => 'yyyy-MM-dd',
-                    'options' => ['class' => 'form-control']
-                ]),
-                'contentOptions' => ['class' => 'text-center'],
-                'value' => function ($model) {
-                    return Yii::$app->formatter->asDatetime($model->updated_at, 'php:d D Y H:i:s');
-                }
-            ],
-            'DEFAULT_CONTROL' => [
-                'class' => 'panix\engine\grid\columns\ActionColumn',
-            ],
-            'DEFAULT_COLUMNS' => [
-                ['class' => 'panix\engine\grid\columns\CheckboxColumn'],
-                [
-                    'class' => \panix\engine\grid\sortable\Column::class,
-                    'url' => ['/admin/news/default/sortable']
-                ],
+                'dateFormat' => 'yyyy-MM-dd',
+                'options' => ['class' => 'form-control']
+            ]),
+            'contentOptions' => ['class' => 'text-center'],
+            'value' => function ($model) {
+                return Yii::$app->formatter->asDatetime($model->updated_at, 'php:d D Y H:i:s');
+            }
+        ];
+        $columns['DEFAULT_CONTROL'] = [
+            'class' => 'panix\engine\grid\columns\ActionColumn',
+        ];
+        $columns['DEFAULT_COLUMNS'] = [
+            ['class' => 'panix\engine\grid\columns\CheckboxColumn'],
+            [
+                'class' => \panix\engine\grid\sortable\Column::class,
+                'url' => ['/admin/news/default/sortable']
             ],
         ];
+        return $columns;
     }
 
     /**
