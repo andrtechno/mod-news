@@ -151,12 +151,12 @@ class News extends ActiveRecord
 
     public function getUrl($category = null)
     {
-        if (Yii::$app->getModule('news')->enableCategory && $category) {
-            return ['/news/default/view', 'category' => $category, 'slug' => $this->slug];
-        } else {
-            return ['/news/default/view', 'slug' => $this->slug];
+        if (Yii::$app->getModule('news')->enableCategory) {
+            if($this->category_id){
+                return ['/news/default/view', 'category' => $this->category->slug, 'slug' => $this->slug];
+            }
         }
-
+        return ['/news/default/view', 'slug' => $this->slug];
     }
 
     /**
