@@ -40,7 +40,7 @@ class DefaultController extends WebController
 
         //    $query = NewsCategory::find()->published();
         // }else{
-        $query = News::find()->published();
+        $query = News::find()->published()->sort();
         if (Yii::$app->request->get('category')) {
 
             $category = NewsCategory::find()
