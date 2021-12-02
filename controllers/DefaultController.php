@@ -67,30 +67,6 @@ class DefaultController extends WebController
     }
 
 
-    public function actionCategory22($slug)
-    {
-        $this->dataModel = NewsCategory::find()
-            ->published()
-            ->where(['slug' => $slug])
-            ->one();
-
-
-        if (!$this->dataModel) {
-            $this->error404();
-        }
-        $this->dataModel->updateCounters(['views' => 1]);
-        $this->view->setModel($this->dataModel);
-        $this->pageName = $this->dataModel->name;
-        $this->view->params['breadcrumbs'][] = [
-            'label' => Yii::t($this->module->id . '/default', 'MODULE_NAME'),
-            'url' => ['index']
-        ];
-        $this->view->params['breadcrumbs'][] = $this->pageName;
-        $this->view->title = $this->pageName;
-        return $this->render('category', ['model' => $this->dataModel]);
-    }
-
-
     public function actionView($slug)
     {
         $this->dataModel = News::find()
@@ -110,6 +86,14 @@ class DefaultController extends WebController
             'label' => Yii::t($this->module->id . '/default', 'MODULE_NAME'),
             'url' => ['index']
         ];
+        if ($this->module->enableCategory) {
+            if ($this->dataModel->category_id) {
+                $this->view->params['breadcrumbs'][] = [
+                    'label' => $this->dataModel->category->name,
+                    'url' => $this->dataModel->category->getUrl()
+                ];
+            }
+        }
         $this->view->params['breadcrumbs'][] = $this->pageName;
         $this->view->title = $this->pageName;
         return $this->render('view', ['model' => $this->dataModel]);
