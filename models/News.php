@@ -19,7 +19,8 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $name
- * @property string $text
+ * @property string $short_description
+ * @property string $full_description
  * @property string $slug
  * @property integer $views
  * @property string $image
