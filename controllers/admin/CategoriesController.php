@@ -14,6 +14,14 @@ use panix\engine\controllers\AdminController;
 class CategoriesController extends AdminController
 {
 
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->getModule($this->module->id)->enableCategory) {
+            return $this->error404();
+        }
+        return parent::beforeAction($action);
+    }
+    
     public function actions()
     {
         return [
