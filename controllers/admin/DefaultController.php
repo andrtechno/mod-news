@@ -118,18 +118,19 @@ class DefaultController extends AdminController
 
     public function getAddonsMenu()
     {
-        return [
-            [
-                'label' => Yii::t('app/default', 'SETTINGS'),
-                'url' => ["/admin/{$this->module->id}/settings/index"],
-                'icon' => Html::icon('settings'),
-            ],
-            [
-                'label' => Yii::t('news/default', 'CATEGORIES'),
+        $items[] = [
+            'label' => Yii::t('app/default', 'SETTINGS'),
+            'url' => ["/admin/{$this->module->id}/settings/index"],
+            'icon' => Html::icon('settings'),
+        ];
+        if (Yii::$app->getModule($this->module->id)->enableCategory) {
+            $items[] = [
+                'label' => Yii::t('work/default', 'CATEGORIES'),
                 'url' => ["/admin/{$this->module->id}/categories/index"],
                 'icon' => Html::icon('folder'),
-            ],
-        ];
+            ];
+        }
+        return $items;
     }
 
     public function actionCreate()
