@@ -33,7 +33,6 @@ class DefaultController extends WebController
     public function actionIndex()
     {
         $this->pageName = Yii::t($this->module->id . '/default', 'MODULE_NAME');
-        $this->view->params['breadcrumbs'][] = $this->pageName;
 
 
         // if(Yii::$app->request->get('category')){
@@ -51,18 +50,38 @@ class DefaultController extends WebController
                 $this->error404();
             }
             $query->andWhere(['category_id' => $category->id]);
+
+            $this->view->params['breadcrumbs'][] = [
+                'label' => $this->pageName,
+                'url' => ['/' . $this->module->id . '/default/index']
+            ];
+            $this->view->params['breadcrumbs'][] = $category->name;
+
+        } else {
+            $this->view->params['breadcrumbs'][] = $this->pageName;
         }
         if (Yii::$app->request->get('tag')) {
             $query->anyTagValues(Yii::$app->request->get('tag'));
         }
         // }
 
+        //$query->joinWith([
+        //    'translations' => function (\yii\db\ActiveQuery $query) {
+        //        $languageId = Yii::$app->languageManager->active->id;
+        //        $query->where([NewsTranslate::tableName() . '.language_id' => $languageId]);
+        //        $query->andwhere(['!=', NewsTranslate::tableName() . '.name', '']);
+        //        $query->orWhere(['!=', NewsTranslate::tableName() . '.name', null]);
+        //    }
+        //]);
+        //echo $query->count();
+        // echo $query->createCommand()->rawSql;die;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'category' => (isset($category)) ? $category : null
         ]);
     }
 
