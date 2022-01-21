@@ -61,7 +61,9 @@ class NewsCategorySearch extends NewsCategory
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
-
+        if($this->name){
+            $query->translate();
+        }
         $query->andFilterWhere(['like', 'translate.name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
