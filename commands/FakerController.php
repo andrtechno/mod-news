@@ -26,18 +26,18 @@ class FakerController extends Controller
                 'short_description' => $text,
                 'full_description' => $text
             ];
-            $news = new News();
-            $news->detachBehavior('uploadFile');
-            $news->user_id = 1;
-            $news->category_id = rand(1,2);
-            $news->name = $faker->sentence(10, true);
-            $news->slug = CMS::slug($news->name);
-            $news->image = $faker->image(Yii::getAlias('@uploads/news'), 640, 480, null, false);
-            $news->short_description = $faker->sentences(rand(20, 50), true);
-            $news->full_description = '<blockquote>'.$faker->sentences(rand(20, 50), true).'</blockquote>'.$faker->sentences(rand(500, 1000), true);
+            $model = new News();
+            $model->detachBehavior('uploadFile');
+            $model->user_id = 1;
+            $model->category_id = rand(1,2);
+            $model->name = $faker->sentence(10, true);
+            $model->slug = CMS::slug($model->name);
+            $model->image = CMS::fakeImage(Yii::getAlias('@uploads/news'),'640x480','news');
+            $model->short_description = $faker->sentences(rand(20, 50), true);
+            $model->full_description = '<blockquote>'.$faker->sentences(rand(20, 50), true).'</blockquote>'.$faker->sentences(rand(500, 1000), true);
             //$news->full_description = Html::img($faker->imageUrl(640, 480, 'Testing', false, 'by CMS')) . $faker->sentences(rand(500, 1000), false);
-            $news->save(false);
-            echo 'Add News: ' . $news->name . PHP_EOL;
+            $model->save(false);
+            echo 'Add News: ' . $model->name . PHP_EOL;
         }
 
 
