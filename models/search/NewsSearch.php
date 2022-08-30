@@ -68,7 +68,10 @@ class NewsSearch extends News
         if (Yii::$app->getModule(static::MODULE_ID)->enableCategory) {
             $query->andFilterWhere(['category_id' => $this->category_id]);
         }
-        $query->andFilterWhere(['like', 'translate.name', $this->name]);
+        if ($this->name) {
+            $query->joinWith('translate');
+        }
+        $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere(['like', 'DATE(created_at)', $this->created_at]);
         $query->andFilterWhere(['like', 'views', $this->views]);
 
