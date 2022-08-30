@@ -123,7 +123,12 @@ class News extends ActiveRecord
     {
         return '{{%news}}';
     }
-
+    
+    public function getTranslate()
+    {
+        return $this->hasOne($this->translationClass, ['object_id' => 'id'])->andWhere(['language_id'=>Yii::$app->languageManager->active->id]);
+    }
+    
     /**
      * @inheritdoc
      */
