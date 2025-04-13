@@ -33,7 +33,7 @@ $form->field($model, 'full_description')->widget(TinyMce::class, [
     'parts' => [
         '{buttons}' => $model->getFileHtmlButton('image')
     ],
-    'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{error}{hint}{endWrapper}'
+    //'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{error}{hint}{endWrapper}'
 ])->fileInput() ?>
 
 <?php
